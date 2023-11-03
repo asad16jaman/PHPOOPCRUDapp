@@ -72,6 +72,23 @@ class DataBase{
         }
     }
 
+    public function delete(string $table, $where=null){
+        if($this->tableExistis($table)){
+            $ww = ($where)? "WHERE $where" : "";
+            $sql = "DELETE FROM $table ".$ww;
+            if($this->cnct->query($sql)){
+                array_push($this->result,"successfully deleted...");
+                return true; 
+            }else{
+                array_push($this->result,"there is some error");
+                return false; 
+            }
+
+        }else{
+            array_push($this->result,"table dosnt existis...");
+        }
+    }
+
 
 
 
