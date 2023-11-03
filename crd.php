@@ -21,7 +21,6 @@ class DataBase{
                 return true;
             }
         }
-
     }
 
     function detail():Bool{
@@ -44,21 +43,43 @@ class DataBase{
             }else{
                 array_push($this->result,"table is not exist...");
             }
-
         }else{
             array_push($this->result,"data mest need...");
             return false;
         }
     }
 
+    public function update(string $table, array $param,$where=null){
+        if($this->tableExistis($table)){
+            $txt = "";
+            foreach($param as $key => $val){
+                $txt .= " $key = '$val',";
+            };
+            $mywhere = ($where) ? " WHERE $where" : "";
+            $txt = substr($txt,0,strlen($txt)-1);
+            $sql = "UPDATE  $table SET ".$txt.$mywhere ;
+            $rsl = $this->cnct->query($sql);
+            if(!$rsl){
+                array_push($this->result,"there is some error");
+                return false; 
+            }
+            array_push($this->result,$this->cnct->affected_rows);
+            return true;
+
+
+        }else{
+            array_push($this->result,"table dosnt existis...");
+        }
+    }
+
+
+
+
     public function resultAccess(){
         $nesArray = $this->result;
         $this->result = array();
         return $nesArray;
     }
-
-
-
 
     private function tableExistis($tableName){
         $sql = "SHOW TABLES FROM $this->dbName LIKE '$tableName'";
@@ -71,9 +92,6 @@ class DataBase{
         }
     }
 
-
-
-
     function __destruct(){
         if($this->connection){
             $this->cnct->close();
@@ -83,9 +101,6 @@ class DataBase{
             return true;
         }
     }
-
-
-
 }
 
 
