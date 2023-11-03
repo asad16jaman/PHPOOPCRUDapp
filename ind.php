@@ -3,7 +3,8 @@ require "crd.php";
 
     $ob = new DataBase();
 
-    $ob->insertData("abc",["name"=>"asaduzzaman","roll"=>1245]);
+    $ob->insertData("abc",["customerName"=>"rohiduzzaman","roll"=>1245]);
+    print_r($ob->resultAccess());
 
 
 
