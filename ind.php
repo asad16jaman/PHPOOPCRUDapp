@@ -6,9 +6,7 @@ require "crd.php";
     $ob->insertData("abc",["customerName"=>"rohiduzzaman","roll"=>1245]);
     print_r($ob->resultAccess());
 
-
-
-
+ 
 
 
 ?>
