@@ -10,6 +10,7 @@ class DataBase{
    private $connection = false;
    private $result = [];
     
+   //constructor function is for build up connection
     function __construct(){
         if($this->connection==false){
             $this->cnct = new mysqli($this->serverName,$this->username,$this->password,$this->dbName);
@@ -23,10 +24,12 @@ class DataBase{
         }
     }
 
-    function detail():Bool{
+    //this is cheker function to is connection is on or not
+    function isOpenDatabase():Bool{
         return $this->connection;
     }
 
+    //it is for insert data/row in table
     public function insertData(string $table,array $data){
         if(sizeof($data)>0){
             if($this->tableExistis($table)){
@@ -49,6 +52,7 @@ class DataBase{
         }
     }
 
+    //this function is use for update table data with or without condition
     public function update(string $table, array $param,$where=null){
         if($this->tableExistis($table)){
             $txt = "";
@@ -72,6 +76,7 @@ class DataBase{
         }
     }
 
+    //this function is use for delete table data with or without condition
     public function delete(string $table, $where=null){
         if($this->tableExistis($table)){
             $ww = ($where)? "WHERE $where" : "";
@@ -89,6 +94,7 @@ class DataBase{
         }
     }
 
+    //getting data with pure sql by the help of this function 
     public function sql(string $qry){
         $allrow = $this->cnct->query($qry);
         if($allrow){
@@ -100,6 +106,7 @@ class DataBase{
         }
     }
 
+    //with the help of this function bellow we can get data by passing valid parameter..
     public function getData(string $table,$row="*",$where=null,$groupBy=null,$orderBy=null){
 
         if($this->tableExistis($table)){
@@ -122,15 +129,14 @@ class DataBase{
         }
     }
 
-
-
-
+    //we can see result with this function call/invoc
     public function resultAccess(){
         $nesArray = $this->result;
         $this->result = array();
         return $nesArray;
     }
 
+    //it is cheaker function that table is existis or not
     private function tableExistis($tableName){
         $sql = "SHOW TABLES FROM $this->dbName LIKE '$tableName'";
         $rsl = $this->cnct->query($sql);
@@ -142,6 +148,7 @@ class DataBase{
         }
     }
 
+    //close connection if it open with this function
     function __destruct(){
         if($this->connection){
             $this->cnct->close();
