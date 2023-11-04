@@ -89,6 +89,39 @@ class DataBase{
         }
     }
 
+    public function sql(string $qry){
+        $allrow = $this->cnct->query($qry);
+        if($allrow){
+            $this->result = $allrow->fetch_all(MYSQLI_ASSOC);
+            return true;
+        }else{
+            array_push($this->result,"there is some error");
+            return false; 
+        }
+    }
+
+    public function getData(string $table,$row="*",$where=null,$groupBy=null,$orderBy=null){
+
+        if($this->tableExistis($table)){
+            $sql = "SELECT $row FROM $table ";
+            $wh = ($where) ? " WHERE $where " : "";
+            $sql .= $wh;
+            $grp = ($groupBy) ? " GROUP BY $groupBy " : "";
+            $sql .= $grp;            
+            $ord = ($orderBy) ? " ORDER BY $orderBy " : "";
+            $sql .= $ord;
+
+            $rsl = $this->cnct->query($sql);
+            if($rsl){
+                $this->result = $rsl->fetch_all(MYSQLI_ASSOC);
+                return true;
+            }else{
+            array_push($this->result,"there is some error");
+            return false; 
+            }
+        }
+    }
+
 
 
 
